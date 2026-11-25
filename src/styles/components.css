@@ -1,0 +1,600 @@
+/* ==========================================================================
+   Motogo — componentes compartidos (web y panel)
+   Van ANTES de las utilidades de Tailwind: así una clase como `hidden` o `bg-brand`
+   siempre puede sobrescribir a un componente como `.btn`.
+   ========================================================================== */
+
+:root {
+  --brand: #f4b400;
+  --brand-glow: #ffcb1a;
+  --ink: #000;
+  --bg: #0a0a0c;
+  --card: #121318;
+  --surface: #1a1b22;
+  --line: #2a2c38;
+  --font-body: 'Barlow', 'Barlow-fallback', system-ui, sans-serif;
+  --font-display: 'Barlow Condensed', 'Barlow-Condensed-fallback', 'Arial Narrow', sans-serif;
+  --marquee-h: 3.25rem; /* alto de la barra amarilla fija */
+  --header-h: 5rem;     /* alto del menú fijo: h-20 en móvil, h-24 desde lg */
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ---------- Base ---------- */
+html {
+  scroll-behavior: smooth;
+  color-scheme: dark; /* barras de scroll y controles nativos en oscuro */
+  -webkit-tap-highlight-color: transparent;
+  text-size-adjust: 100%;
+}
+
+/* Títulos sin palabras huérfanas; párrafos con cortes más naturales */
+h1, h2, h3 { text-wrap: balance; }
+p, li, dd { text-wrap: pretty; }
+
+/* Cifras de igual ancho: los montos no "bailan" al mover la calculadora */
+output, .tabular { font-variant-numeric: tabular-nums; }
+
+::selection { background: var(--brand); color: var(--ink); }
+
+body {
+  background: var(--bg);
+  color: #fff;
+  font-family: var(--font-body);
+  overflow-x: hidden;
+}
+
+body.no-scroll { overflow: hidden; }
+
+/* El atributo hidden siempre gana a clases como .block o .flex */
+[hidden] { display: none !important; }
+
+@media (min-width: 1024px) {
+  :root { --header-h: 6rem; }
+}
+
+/* Las anclas no quedan tapadas por la barra amarilla + el menú fijos */
+[id] { scroll-margin-top: calc(var(--marquee-h) + var(--header-h) + 1rem); }
+
+/* Menú fijo justo debajo de la barra amarilla; al bajar gana una sombra para separarse del contenido */
+.site-header {
+  top: var(--marquee-h);
+  transition: box-shadow 0.2s ease;
+}
+
+.site-header.is-scrolled { box-shadow: 0 10px 30px -10px rgb(0 0 0 / 0.8); }
+
+:focus-visible {
+  outline: 3px solid var(--brand);
+  outline-offset: 3px;
+}
+
+/* ---------- Deslizadores (calculadora): pista y tirador cuadrados, a juego con la marca ---------- */
+input[type='range'] {
+  --fill: 50%;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 2.75rem; /* área táctil cómoda; la pista se dibuja más fina */
+  background: transparent;
+  cursor: pointer;
+}
+
+input[type='range']::-webkit-slider-runnable-track {
+  height: 0.5rem;
+  background: linear-gradient(to right, var(--brand) var(--fill), var(--line) var(--fill));
+  border: 1px solid var(--ink);
+}
+
+input[type='range']::-moz-range-track {
+  height: 0.5rem;
+  background: var(--line);
+  border: 1px solid var(--ink);
+}
+
+input[type='range']::-moz-range-progress {
+  height: 0.5rem;
+  background: var(--brand);
+}
+
+input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-top: calc(0.25rem - 0.75rem - 1px);
+  background: var(--brand);
+  border: 2px solid var(--ink);
+  box-shadow: 3px 3px 0 var(--ink);
+  transition: transform 0.15s ease;
+}
+
+input[type='range']::-moz-range-thumb {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 0;
+  background: var(--brand);
+  border: 2px solid var(--ink);
+  box-shadow: 3px 3px 0 var(--ink);
+}
+
+input[type='range']:active::-webkit-slider-thumb { transform: scale(1.12); }
+input[type='range']:focus-visible { outline-offset: 0; }
+
+/* Iconos SVG del sprite (ver scripts/vite-plugins.js) */
+.icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  flex-shrink: 0;
+  fill: currentColor;
+  vertical-align: -0.125em;
+}
+
+/* Secciones bajo el pliegue: el navegador no las pinta hasta que se acercan */
+.defer-render {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 900px;
+}
+
+/* ---------- Tipografía ---------- */
+.heading-font {
+  font-family: var(--font-display);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+}
+
+.eyebrow {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--brand);
+}
+
+/* ---------- Formas ---------- */
+.clip-corner {
+  --cut: 20px;
+  position: relative;
+  clip-path: polygon(0 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% 100%, var(--cut) 100%, 0 calc(100% - var(--cut)));
+}
+
+/* clip-path borra el borde en las esquinas cortadas: se redibuja la diagonal
+   con el mismo color del borde (también cambia en hover). */
+.clip-corner::before,
+.clip-corner::after {
+  content: '';
+  position: absolute;
+  z-index: 20;
+  width: var(--cut);
+  height: var(--cut);
+  pointer-events: none;
+  background: linear-gradient(to top right, transparent calc(50% - 2px), var(--edge, var(--line)) calc(50% - 2px) calc(50% + 2px), transparent calc(50% + 2px));
+  transition: background 0.2s var(--ease);
+}
+
+.clip-corner::before { top: -2px; right: -2px; }
+.clip-corner::after { bottom: -2px; left: -2px; }
+
+.clip-badge {
+  clip-path: polygon(0 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+  padding-right: 1.25rem;
+}
+
+/* ---------- Botones ---------- */
+.btn,
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding-inline: 1.25rem;
+  font-family: var(--font-display);
+  font-weight: 900;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 1.1;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.btn[aria-disabled='true'],
+.btn:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.btn {
+  background: var(--brand);
+  color: var(--ink);
+  border: 2px solid var(--ink);
+  box-shadow: 4px 4px 0 var(--ink);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+
+.btn:hover {
+  background: var(--brand-glow);
+  box-shadow: 7px 7px 0 var(--ink);
+  transform: translate(-2px, -2px);
+}
+
+.btn:active {
+  box-shadow: 2px 2px 0 var(--ink);
+  transform: translate(2px, 2px);
+}
+
+.btn-ghost {
+  background: var(--surface);
+  color: #fff;
+  border: 2px solid var(--line);
+  transition: border-color 0.15s ease;
+}
+
+.btn-ghost:hover { border-color: var(--brand); }
+
+/* ---------- Navegación principal ---------- */
+.nav-link {
+  position: relative;
+  padding-block: 0.375rem;
+  transition: color 0.15s ease;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: var(--brand);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s var(--ease);
+}
+
+.nav-link:hover { color: var(--brand); }
+.nav-link:hover::after,
+.nav-link[aria-current]::after { transform: scaleX(1); }
+.nav-link[aria-current] { color: var(--brand); }
+
+/* ---------- Pie de página ---------- */
+.footer-title {
+  margin-bottom: 1rem;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 1.125rem;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.footer-link {
+  display: inline-flex;
+  min-height: 2.75rem; /* objetivo táctil cómodo */
+  align-items: center;
+  transition: color 0.15s ease;
+}
+
+.footer-link:hover { color: var(--brand); }
+
+/* ---------- Chips (filtros y plazos) ---------- */
+.chip {
+  padding: 0.5rem 1rem;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 1rem;
+  text-transform: uppercase;
+  background: var(--card);
+  color: #fff;
+  border: 2px solid var(--line);
+  transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+}
+
+.chip:hover { border-color: var(--brand); }
+
+.chip[aria-pressed='true'] {
+  background: var(--brand);
+  color: var(--ink);
+  border-color: var(--ink);
+}
+
+.chip--lg {
+  padding-block: 0.75rem;
+  font-size: 1rem;
+  white-space: nowrap;
+}
+
+@media (min-width: 640px) {
+  .chip { font-size: 1.125rem; }
+  .chip--lg { font-size: 1.25rem; }
+}
+
+/* ---------- Badges ---------- */
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.625rem;
+  background: var(--brand);
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
+.badge--lg { font-size: 0.875rem; padding: 0.25rem 0.75rem; }
+
+/* ---------- Cards ----------
+   Las esquinas recortadas (clip-path) cortan cualquier sombra exterior,
+   así que el hover usa borde + elevación en vez de sombra. */
+.card {
+  --edge: var(--line);
+  background: var(--card);
+  border: 2px solid var(--edge);
+  transition: border-color 0.2s var(--ease), transform 0.2s var(--ease);
+}
+
+.card:hover {
+  --edge: var(--brand);
+  transform: translateY(-4px);
+}
+
+.card__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.7s var(--ease);
+}
+
+/* Esqueleto mientras cargan las motos (misma altura aproximada que una card) */
+.skeleton-card {
+  height: 31rem;
+  background: linear-gradient(100deg, var(--card) 40%, var(--surface) 50%, var(--card) 60%) 0 0 / 200% 100%;
+  border: 2px solid var(--line);
+  animation: skeleton 1.4s linear infinite;
+}
+
+@keyframes skeleton {
+  to { background-position: -200% 0; }
+}
+
+.card:hover .card__bg { transform: scale(1.05); }
+
+/* Card de moto */
+.bike-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  cursor: pointer;
+}
+
+.bike-card__media {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--surface);
+  flex-shrink: 0;
+}
+
+.bike-card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s var(--ease);
+}
+
+.bike-card:hover .bike-card__media img { transform: scale(1.05); }
+
+.bike-card__zoom {
+  position: absolute;
+  right: 0.75rem;
+  bottom: 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.625rem;
+  background: rgb(0 0 0 / 0.7);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.bike-card:hover .bike-card__zoom {
+  background: var(--brand);
+  color: var(--ink);
+}
+
+/* ---------- Marquee ---------- */
+.marquee { height: var(--marquee-h); }
+
+.marquee__track {
+  display: flex;
+  width: max-content;
+  height: 100%;
+  align-items: center;
+  animation: marquee 30s linear infinite;
+}
+
+.marquee__group {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  padding-right: 2rem; /* = gap, para que el bucle no salte */
+  white-space: nowrap;
+}
+
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+
+/* ---------- Modal ---------- */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem;
+  background: rgb(0 0 0 / 0.9);
+  backdrop-filter: blur(4px);
+}
+
+.modal.is-open {
+  display: flex;
+  animation: modal-fade 0.2s ease-out;
+}
+
+.modal.is-open .modal__dialog { animation: modal-rise 0.28s var(--ease); }
+
+@keyframes modal-fade { from { opacity: 0; } }
+@keyframes modal-rise { from { opacity: 0; transform: translateY(16px) scale(0.98); } }
+
+.modal__dialog {
+  position: relative;
+  width: 100%;
+  max-width: 64rem;
+  max-height: 92vh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: var(--card);
+  border: 4px solid var(--brand);
+  box-shadow: 8px 8px 0 var(--brand);
+}
+
+.modal__close,
+.modal__nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  background: var(--brand);
+  color: var(--ink);
+  border: 2px solid var(--ink);
+  font-size: 1.25rem;
+  transition: background-color 0.15s ease;
+}
+
+.modal__close:hover,
+.modal__nav:hover { background: var(--brand-glow); }
+
+.modal__close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  z-index: 2;
+}
+
+.modal__nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3rem;
+  height: 3rem;
+}
+
+.modal__nav--prev { left: 1rem; }
+.modal__nav--next { right: 1rem; }
+
+@media (min-width: 640px) {
+  .modal { padding: 1.5rem; }
+}
+
+/* En pantallas medianas las flechas laterales tapaban la ventana: se ocultan
+   y se usan los botones Anterior/Siguiente del propio modal. */
+@media (max-width: 1279px) {
+  .modal__nav { display: none; }
+}
+
+/* ---------- Botón flotante de WhatsApp ---------- */
+.fab {
+  position: fixed;
+  right: 1.25rem;
+  bottom: calc(1.25rem + env(safe-area-inset-bottom));
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.75rem;
+  height: 3.75rem;
+  border-radius: 9999px;
+  background: #22c55e;
+  color: var(--ink);
+  border: 4px solid var(--ink);
+  box-shadow: 4px 4px 0 var(--ink);
+  font-size: 1.75rem;
+  transition: transform 0.15s ease;
+}
+
+.fab:hover { transform: scale(1.08) rotate(-6deg); }
+
+/* El botón flotante no tapa el final de la página en móvil */
+@media (max-width: 639px) {
+  .fab { width: 3.25rem; height: 3.25rem; font-size: 1.5rem; border-width: 3px; }
+}
+
+/* ---------- Accesibilidad / dispositivos táctiles ---------- */
+@media (hover: none) {
+  .card:hover,
+  .btn:hover { transform: none; }
+  .card:hover .card__bg,
+  .bike-card:hover .bike-card__media img { transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .marquee__track { animation: none; }
+  .modal.is-open,
+  .modal.is-open .modal__dialog { animation: none; }
+  *, *::before, *::after { transition-duration: 0.01ms !important; }
+}
+
+/* ---------- Fundido de fotos al cargar (las marca initImageFallback) ---------- */
+img[data-fallback] {
+  opacity: 0;
+  transition: opacity 0.4s ease, transform 0.5s var(--ease);
+}
+
+img[data-fallback].is-loaded { opacity: 1; }
+
+/* ---------- Foto de respaldo (moto sin foto o foto rota) ---------- */
+img.img-fallback {
+  object-fit: contain !important;
+  padding: 12%;
+  background: var(--surface);
+}
+
+/* ---------- Estado de la moto (reservada / vendida) ---------- */
+.status-tag {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  padding: 0.25rem 0.625rem;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: #fff;
+  border: 2px solid var(--ink);
+}
+
+.status-tag--reservada { background: #2563eb; }
+.status-tag--vendida { background: #dc2626; }
+
+/* ---------- Galería de la ficha ---------- */
+.gallery-thumb {
+  flex-shrink: 0;
+  width: 4.5rem;
+  height: 3.5rem;
+  border: 2px solid transparent;
+  opacity: 0.6;
+  transition: opacity 0.15s ease, border-color 0.15s ease;
+}
+
+.gallery-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.gallery-thumb:hover { opacity: 1; }
+.gallery-thumb[aria-current='true'] { opacity: 1; border-color: var(--brand); }

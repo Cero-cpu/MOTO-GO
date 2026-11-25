@@ -1,0 +1,7 @@
+/* Hoja de estilos del panel. El orden importa: utilidades al final. */
+@import './fonts.css';
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import './components.css';
+@import './admin-components.css';
+@import 'tailwindcss/utilities';

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#121318">
+  <title>Panel Motogo</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="preconnect" href="%VITE_SUPABASE_URL%" crossorigin>
+  <script type="module" src="/src/admin.js"></script>
+</head>
+<body class="min-h-screen bg-dark text-white antialiased">
+
+  <!-- ============ ACCESO ============ -->
+  <main id="login" class="flex min-h-screen items-center justify-center px-4 py-10" hidden>
+    <form id="login-form" class="login-card space-y-5">
+      <div class="flex items-center gap-3">
+        <img src="/img/logo-128.webp" alt="Motogo" width="56" height="56" class="h-14 w-14 border-2 border-black">
+        <div>
+          <h1 class="heading-font text-3xl leading-none">Panel <span class="text-brand">Motogo</span></h1>
+          <p class="text-xs text-gray-400">Acceso para administradores</p>
+        </div>
+      </div>
+      <p class="login-error" data-login-error role="alert" hidden></p>
+      <label class="field">
+        <span class="field__label">Usuario o Correo</span>
+        <input id="login-email" class="input" type="text" autocomplete="username" required>
+      </label>
+      <label class="field">
+        <span class="field__label">Contraseña</span>
+        <input id="login-password" class="input" type="password" autocomplete="current-password" required>
+      </label>
+      <button type="submit" class="btn w-full py-3 text-lg"><svg class="icon" aria-hidden="true"><use href="#i-lock"></use></svg> Entrar</button>
+      <a href="/" class="block text-center text-sm text-gray-400 hover:text-brand">← Volver a la web</a>
+    </form>
+  </main>
+
+  <!-- ============ PANEL ============ -->
+  <div id="app" hidden>
+    <header class="border-b-2 border-dark-border bg-dark-card">
+      <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-4 py-4 sm:px-6">
+        <div class="flex items-center gap-3">
+          <img src="/img/logo-128.webp" alt="Motogo" width="48" height="48" class="h-12 w-12 border-2 border-black">
+          <div>
+            <p class="heading-font text-2xl leading-none">Panel <span class="text-brand">Motogo</span></p>
+            <p class="text-xs text-gray-400" data-user-email></p>
+          </div>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <a href="/" target="_blank" rel="noopener" class="btn py-2 text-sm"><svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right-from-square"></use></svg> Ver web</a>
+          <button type="button" class="btn-ghost py-2 text-sm" data-tool="export"><svg class="icon" aria-hidden="true"><use href="#i-download"></use></svg> Exportar datos</button>
+          <button type="button" class="btn-ghost py-2 text-sm" data-action="logout"><svg class="icon" aria-hidden="true"><use href="#i-right-from-bracket"></use></svg> Salir</button>
+        </div>
+      </div>
+    </header>
+
+    <nav class="admin-tabs" aria-label="Secciones del panel">
+      <div class="mx-auto flex max-w-6xl gap-1 overflow-x-auto px-4 sm:px-6" role="tablist">
+        <button type="button" role="tab" data-tab="bikes"><svg class="icon" aria-hidden="true"><use href="#i-motorcycle"></use></svg> Motos <span class="tab-count" data-count="bikes"></span></button>
+        <button type="button" role="tab" data-tab="offers"><svg class="icon" aria-hidden="true"><use href="#i-tags"></use></svg> Ofertas <span class="tab-count" data-count="offers"></span></button>
+        <button type="button" role="tab" data-tab="branches"><svg class="icon" aria-hidden="true"><use href="#i-store"></use></svg> Sucursales <span class="tab-count" data-count="branches"></span></button>
+        <button type="button" role="tab" data-tab="settings"><svg class="icon" aria-hidden="true"><use href="#i-gear"></use></svg> Ajustes</button>
+      </div>
+    </nav>
+
+    <main id="view" class="mx-auto max-w-6xl px-4 py-8 sm:px-6" tabindex="-1"></main>
+  </div>
+
+  <!-- Formulario en ventana (crear / editar) -->
+  <div id="drawer" class="modal" role="dialog" aria-modal="true" aria-labelledby="drawer-title">
+    <div class="modal__dialog admin-drawer">
+      <form id="drawer-form" novalidate></form>
+    </div>
+  </div>
+
+  <div id="toasts" class="toasts" aria-live="polite"></div>
+</body>
+</html>

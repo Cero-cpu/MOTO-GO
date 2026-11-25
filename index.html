@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f4b400">
+  <meta name="description" content="Motogo: venta, financiamiento flexible y moto préstamos en La Vega, Bonao, San Francisco de Macorís y Moca.">
+  <title>Motogo | Venta, Financiamiento y Moto Préstamos (La Vega • Bonao • SFM • Moca)</title>
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Motogo | Venta y financiamiento de motos en el Cibao">
+  <meta property="og:description" content="Financiamiento flexible y moto préstamos en La Vega, Bonao, San Francisco de Macorís y Moca.">
+  <meta property="og:locale" content="es_DO">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+  <!-- Conexiones anticipadas: datos (Supabase) y fotos -->
+  <link rel="preconnect" href="%VITE_SUPABASE_URL%" crossorigin>
+  <link rel="preconnect" href="https://images.unsplash.com">
+
+  <script type="module" src="/src/main.js"></script>
+</head>
+<body class="flex min-h-screen flex-col antialiased selection:bg-brand selection:text-black">
+
+  <!-- ============ BARRA DE ANUNCIOS ============ -->
+  <div class="marquee sticky top-0 z-50 overflow-hidden border-b-4 border-black bg-brand heading-font text-lg text-black sm:text-xl">
+    <div class="marquee__track">
+      <div class="marquee__group">
+        <span><svg class="icon mr-1.5" aria-hidden="true"><use href="#i-bolt"></use></svg>Motogo • <span data-branches="long">La Vega • Bonao • San Francisco de Macorís (SFM) • Moca</span></span><span>•</span>
+        <span>Financiamiento flexible — cuotas a tu medida</span><span>•</span>
+        <span>Moto préstamos rápidos en horas</span><span>•</span>
+        <span>Venta al por mayor y detalle</span><span>•</span>
+        <span>Repuestos, accesorios y taller</span><span>•</span>
+      </div>
+      <div class="marquee__group" aria-hidden="true">
+        <span><svg class="icon mr-1.5" aria-hidden="true"><use href="#i-bolt"></use></svg>Motogo • <span data-branches="long">La Vega • Bonao • San Francisco de Macorís (SFM) • Moca</span></span><span>•</span>
+        <span>Financiamiento flexible — cuotas a tu medida</span><span>•</span>
+        <span>Moto préstamos rápidos en horas</span><span>•</span>
+        <span>Venta al por mayor y detalle</span><span>•</span>
+        <span>Repuestos, accesorios y taller</span><span>•</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ HEADER ============ -->
+  <header class="site-header sticky z-40 border-b-2 border-dark-border bg-dark/95 backdrop-blur-md">
+    <div class="mx-auto flex h-20 max-w-7xl items-center justify-between gap-6 px-4 sm:px-6 lg:h-24 lg:px-8">
+
+      <a href="#inicio" class="group flex shrink-0 items-center gap-3" aria-label="Motogo, ir al inicio">
+        <img src="/img/logo-128.webp" alt="Motogo" width="64" height="64" fetchpriority="high"
+             class="h-14 w-14 border-2 border-black shadow-[4px_4px_0_#fff] lg:h-16 lg:w-16 transition-transform group-hover:-rotate-3">
+        <span class="hidden text-[10px] font-black uppercase tracking-widest text-brand sm:block" data-branches="short">La Vega • Bonao • SFM • Moca</span>
+      </a>
+
+      <nav class="hidden items-center gap-6 text-sm font-extrabold uppercase tracking-wider lg:flex xl:gap-8" aria-label="Principal">
+        <a href="#inicio" class="nav-link">Inicio</a>
+        <a href="#servicios" class="nav-link">Servicios</a>
+        <a href="#ofertas" class="nav-link" data-nav="ofertas" hidden>Ofertas</a>
+        <a href="#calculadora" class="nav-link">Calculadora</a>
+        <a href="#catalogo" class="nav-link">Catálogo</a>
+        <a href="#sucursales" class="nav-link">Sucursales</a>
+      </nav>
+
+      <a class="btn hidden shrink-0 py-3 text-lg lg:inline-flex" data-wa="Hola Motogo, quisiera recibir información general.">
+        <svg class="icon text-xl" aria-hidden="true"><use href="#i-whatsapp"></use></svg> Chatear con asesor
+      </a>
+
+      <button id="menu-toggle" type="button" class="border-2 border-dark-border bg-dark-card p-3 text-xl text-white lg:hidden"
+              aria-label="Abrir menú" aria-expanded="false" aria-controls="mobile-menu">
+        <svg class="icon" aria-hidden="true"><use href="#i-bars"></use></svg>
+      </button>
+    </div>
+
+    <nav id="mobile-menu" class="max-h-[calc(100dvh-var(--marquee-h)-var(--header-h))] space-y-4 overflow-y-auto overscroll-contain border-b-4 border-brand bg-dark-card px-6 py-6 lg:hidden" aria-label="Menú móvil" hidden>
+      <a href="#inicio" class="block heading-font text-2xl text-white hover:text-brand">Inicio</a>
+      <a href="#servicios" class="block heading-font text-2xl text-white hover:text-brand">Servicios</a>
+      <a href="#ofertas" class="block heading-font text-2xl text-white hover:text-brand" data-nav="ofertas" hidden>Ofertas</a>
+      <a href="#calculadora" class="block heading-font text-2xl text-white hover:text-brand">Calculadora de préstamos</a>
+      <a href="#catalogo" class="block heading-font text-2xl text-white hover:text-brand">Catálogo de motos</a>
+      <a href="#sucursales" class="block heading-font text-2xl text-white hover:text-brand">Sucursales</a>
+      <a class="btn mt-4 w-full py-4 text-xl" data-wa="Hola Motogo, deseo chatear con un asesor.">
+        <svg class="icon" aria-hidden="true"><use href="#i-whatsapp"></use></svg> Chatear por WhatsApp
+      </a>
+    </nav>
+  </header>
+
+  <main class="flex-1">
+
+    <!-- ============ HERO + SERVICIOS ============ -->
+    <section id="inicio" class="bg-dark pt-12 pb-16 md:pt-16 md:pb-24">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+
+        <div class="mb-10 md:mb-12 flex flex-col items-start justify-between gap-6 border-b-2 border-dark-border pb-8 md:flex-row md:items-end">
+          <div>
+            <span class="badge clip-badge mb-3">Oficial Motogo RD 2026</span>
+            <h1 class="heading-font text-5xl leading-[0.88] text-white sm:text-7xl lg:text-8xl">
+              Tu moto, <span class="text-brand">tu forma</span>
+            </h1>
+          </div>
+          <p class="max-w-md text-base font-medium leading-snug text-gray-400 sm:text-lg">
+            Venta, financiamiento flexible y moto préstamos al instante en nuestras sucursales de
+            <strong class="text-white" data-branches="sentenceLong">La Vega, Bonao, San Francisco de Macorís (SFM) y Moca</strong>.
+          </p>
+        </div>
+
+        <div id="servicios" class="grid grid-cols-1 gap-6 md:grid-cols-12">
+
+          <!-- Financiamiento flexible -->
+          <article class="card clip-corner relative flex min-h-[440px] flex-col justify-end overflow-hidden p-6 sm:p-10 md:col-span-8">
+            <img class="card__bg opacity-40" src="https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=800&q=55" srcset="https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=480&q=55 480w, https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=800&q=55 800w, https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=1200&q=55 1200w, https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=1600&q=55 1600w" sizes="(min-width: 1280px) 830px, (min-width: 768px) 66vw, 100vw" alt="" fetchpriority="high" decoding="async">
+            <div class="absolute inset-0 bg-gradient-to-t from-dark-card via-dark-card/60 to-transparent"></div>
+            <div class="relative z-10 space-y-4">
+              <span class="badge text-xs sm:text-sm">Servicios • Aprobación en horas</span>
+              <h2 class="heading-font text-4xl leading-tight text-white sm:text-6xl">Financiamiento <span class="text-brand">flexible</span></h2>
+              <p class="max-w-xl text-base font-medium text-gray-300 sm:text-lg">
+                ¡Cuotas a tu medida! Móntate de una vez con los mejores iniciales del mercado en República Dominicana.
+              </p>
+              <div class="flex flex-wrap items-center gap-4 pt-2">
+                <a class="btn px-7 py-3.5 text-lg" data-wa="Hola Motogo, quiero cotizar un financiamiento flexible.">
+                  <svg class="icon" aria-hidden="true"><use href="#i-whatsapp"></use></svg> Cotizar por WhatsApp
+                </a>
+                <a href="#calculadora" class="btn-ghost px-6 py-3.5 text-lg">
+                  <svg class="icon text-brand" aria-hidden="true"><use href="#i-calculator"></use></svg> Calcular mi cuota
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Venta al por mayor -->
+          <article class="card clip-corner relative flex flex-col overflow-hidden p-6 sm:p-8 md:col-span-4">
+            <img class="card__bg opacity-25" src="https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&w=800&q=55" srcset="https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&w=480&q=55 480w, https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&w=800&q=55 800w, https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&w=1200&q=55 1200w, https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&w=1600&q=55 1600w" sizes="(min-width: 1280px) 620px, (min-width: 768px) 50vw, 100vw" alt="" loading="lazy" decoding="async">
+            <div class="relative z-10">
+              <h3 class="heading-font mb-3 text-3xl leading-tight text-white sm:text-4xl">Venta al por <span class="text-brand">mayor y detalle</span></h3>
+              <p class="mb-6 text-sm leading-relaxed text-gray-400">
+                Impulsa tu emprendimiento, flotilla de mensajería o negocio con nuestras motocicletas comerciales.
+              </p>
+            </div>
+            <a class="btn relative z-10 mt-auto w-full py-3 text-base" data-wa="Hola Motogo, deseo información sobre ventas al por mayor y detalle.">
+              <svg class="icon" aria-hidden="true"><use href="#i-whatsapp"></use></svg> Consultar precios al mayor
+            </a>
+          </article>
+
+          <!-- Moto préstamos -->
+          <article class="card clip-corner relative flex flex-col overflow-hidden p-6 sm:p-8 md:col-span-6">
+            <img class="card__bg opacity-25" src="https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&w=800&q=55" srcset="https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&w=480&q=55 480w, https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&w=800&q=55 800w, https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&w=1200&q=55 1200w, https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&w=1600&q=55 1600w" sizes="(min-width: 1280px) 620px, (min-width: 768px) 50vw, 100vw" alt="" loading="lazy" decoding="async">
+            <div class="relative z-10">
+              <h3 class="heading-font mb-3 text-3xl leading-tight text-white sm:text-5xl">Moto préstamos <span class="text-brand">rápidos</span></h3>
+              <p class="mb-6 text-base leading-relaxed text-gray-300">
+                Crédito aprobado en horas. Evaluamos tu solicitud al instante para que no pierdas tiempo.
+              </p>
+            </div>
+            <a class="btn relative z-10 mt-auto self-start px-6 py-3.5 text-lg" data-wa="Hola Motogo, quiero solicitar un moto préstamo rápido.">
+              <svg class="icon" aria-hidden="true"><use href="#i-bolt"></use></svg> Solicitar mi préstamo
+            </a>
+          </article>
+
+          <!-- Repuestos y taller -->
+          <article class="card clip-corner relative flex flex-col overflow-hidden p-6 sm:p-8 md:col-span-6">
+            <img class="card__bg opacity-25" src="https://images.unsplash.com/photo-1558980664-3a031cf67ea8?auto=format&fit=crop&w=800&q=55" srcset="https://images.unsplash.com/photo-1558980664-3a031cf67ea8?auto=format&fit=crop&w=480&q=55 480w, https://images.unsplash.com/photo-1558980664-3a031cf67ea8?auto=format&fit=crop&w=800&q=55 800w, https://images.unsplash.com/photo-1558980664-3a031cf67ea8?auto=format&fit=crop&w=1200&q=55 1200w, https://images.unsplash.com/photo-1558980664-3a031cf67ea8?auto=format&fit=crop&w=1600&q=55 1600w" sizes="(min-width: 1280px) 620px, (min-width: 768px) 50vw, 100vw" alt="" loading="lazy" decoding="async">
+            <div class="relative z-10">
+              <h3 class="heading-font mb-3 text-3xl leading-tight text-white sm:text-5xl">Repuestos, accesorios <span class="text-brand">& taller</span></h3>
+              <p class="mb-6 text-base leading-relaxed text-gray-300">
+                Cuidamos tu inversión. Cascos, guantes, bujías y piezas originales con taller especializado en <span data-branches="sentence">La Vega, Bonao, SFM y Moca</span>.
+              </p>
+            </div>
+            <a class="btn relative z-10 mt-auto self-start px-6 py-3.5 text-lg" data-wa="Hola Motogo, necesito consultar piezas, repuestos o servicio de taller.">
+              <svg class="icon" aria-hidden="true"><use href="#i-wrench"></use></svg> Consultar repuestos
+            </a>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ OFERTAS (se gestionan desde el panel; ocultas si no hay ninguna vigente) ============ -->
+    <section id="ofertas" class="border-t-4 border-black bg-dark py-16 md:py-24" hidden>
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="mx-auto mb-12 max-w-3xl text-center">
+          <span class="badge clip-badge mb-3">Por tiempo limitado</span>
+          <h2 class="heading-font text-5xl leading-none text-white sm:text-7xl">Ofertas <span class="text-brand">Motogo</span></h2>
+        </div>
+        <div id="offers-grid" class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"></div>
+      </div>
+    </section>
+
+    <!-- ============ CALCULADORA ============ -->
+    <section id="calculadora" class="border-y-4 border-black bg-dark-surface py-16 md:py-24">
+      <div class="mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-4 sm:px-6 lg:grid-cols-12 lg:px-8">
+
+        <div class="space-y-6 lg:col-span-5">
+          <h2 class="heading-font text-5xl leading-none text-white sm:text-6xl">Calcula tu <br><span class="text-brand">moto préstamo</span></h2>
+          <p class="text-base font-medium leading-relaxed text-gray-300">
+            Ajusta el precio del modelo deseado y tu inicial estimado para ver la cuota mensual aproximada.
+          </p>
+          <ul class="space-y-3 border-t-2 border-dark-border pt-4 text-sm font-bold text-gray-300">
+            <li class="flex items-center gap-3"><svg class="icon text-lg text-brand" aria-hidden="true"><use href="#i-check-double"></use></svg> Requisitos mínimos para cotizar</li>
+            <li class="flex items-center gap-3"><svg class="icon text-lg text-brand" aria-hidden="true"><use href="#i-check-double"></use></svg> Aprobación rápida en horas</li>
+            <li class="flex items-center gap-3"><svg class="icon text-lg text-brand" aria-hidden="true"><use href="#i-check-double"></use></svg> <span id="terms-summary"></span></li>
+          </ul>
+        </div>
+
+        <form class="card clip-corner space-y-8 bg-dark p-6 sm:p-10 lg:col-span-7" onsubmit="return false">
+
+          <div>
+            <div class="mb-1 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+              <label for="input-price" class="heading-font text-xl text-white">Monto del vehículo</label>
+              <output id="display-price" for="input-price" class="heading-font text-3xl text-brand"></output>
+            </div>
+            <input type="range" id="input-price" class="w-full">
+            <div class="-mt-1 flex justify-between text-xs font-bold text-gray-400">
+              <span id="display-price-min" class="tabular"></span><span id="display-price-max" class="tabular"></span>
+            </div>
+          </div>
+
+          <div>
+            <div class="mb-1 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+              <label for="input-downpayment" class="heading-font text-xl text-white">Inicial estimado (<span id="display-percent"></span>%)</label>
+              <output id="display-downpayment" for="input-downpayment" class="heading-font text-2xl text-white"></output>
+            </div>
+            <input type="range" id="input-downpayment" class="w-full">
+          </div>
+
+          <fieldset>
+            <legend class="heading-font mb-3 text-xl text-white">Plazo de financiamiento</legend>
+            <div id="term-options" class="grid grid-cols-2 gap-3 sm:grid-cols-4"></div>
+          </fieldset>
+
+          <div class="flex flex-col items-center justify-between gap-6 border-2 border-brand bg-dark-card p-6 sm:flex-row">
+            <div class="text-center sm:text-left">
+              <span class="mb-1 block text-xs font-bold uppercase tracking-widest text-gray-400">Cuota estimada</span>
+              <output id="display-monthly" class="heading-font text-4xl text-brand sm:text-5xl" aria-live="polite"></output>
+            </div>
+            <a id="btn-apply-loan" class="btn w-full py-4 text-lg sm:w-auto" target="_blank" rel="noopener">
+              <svg class="icon text-xl" aria-hidden="true"><use href="#i-whatsapp"></use></svg> Solicitar ahora
+            </a>
+          </div>
+        </form>
+
+      </div>
+    </section>
+
+    <!-- ============ CATÁLOGO ============ -->
+    <section id="catalogo" class="defer-render bg-dark py-16 md:py-24">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+
+        <div class="mx-auto mb-12 max-w-3xl text-center">
+          <h2 class="heading-font text-5xl leading-none text-white sm:text-7xl">Catálogo de <span class="text-brand">motocicletas</span></h2>
+          <p class="mt-3 text-base text-gray-400">Explora la lista completa disponible para entrega inmediata en <span data-branches="sentence">La Vega, Bonao, SFM y Moca</span>.</p>
+        </div>
+
+        <div class="mb-4 flex flex-col items-stretch justify-between gap-4 lg:flex-row lg:items-center">
+          <div id="catalog-filters" class="flex flex-wrap justify-center gap-2 lg:justify-start" role="group" aria-label="Filtrar por categoría"></div>
+          <div class="w-full lg:w-72">
+            <label for="search-input" class="sr-only">Buscar modelo o marca</label>
+            <input type="search" id="search-input" placeholder="Buscar modelo o marca…" autocomplete="off"
+                   class="w-full border-2 border-dark-border bg-dark-card px-4 py-2.5 font-medium text-white placeholder:text-gray-400 focus:border-brand focus:outline-none">
+          </div>
+        </div>
+        <p id="catalog-count" class="mb-6 text-center text-xs font-bold uppercase tracking-widest text-gray-400 lg:text-left" aria-live="polite"></p>
+
+        <div id="catalog-grid" class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3" aria-busy="true">
+          <div class="skeleton-card"></div><div class="skeleton-card"></div><div class="skeleton-card"></div>
+          <div class="skeleton-card"></div><div class="skeleton-card"></div><div class="skeleton-card"></div>
+        </div>
+        <div class="mt-10 flex justify-center">
+          <button type="button" id="catalog-more" class="btn-ghost px-8 py-4 text-lg" hidden></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SUCURSALES ============ -->
+    <section id="sucursales" class="defer-render border-t-4 border-black bg-dark-surface py-16 md:py-24">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="mx-auto mb-12 max-w-2xl text-center">
+          <h2 class="heading-font text-5xl text-white sm:text-6xl">Nuestras <span class="text-brand">sucursales</span></h2>
+          <p class="mt-2 text-base text-gray-400">Visítanos directamente o solicita cotizaciones con entrega rápida en el Cibao.</p>
+        </div>
+        <div id="branches-grid" class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="defer-render border-t-4 border-black bg-dark pb-28 pt-16 text-gray-400 sm:pb-12">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 gap-10 border-b border-dark-border pb-12 sm:grid-cols-2 lg:grid-cols-12">
+
+        <div class="space-y-5 lg:col-span-4">
+          <img src="/img/logo-160.webp" alt="Motogo" width="80" height="80" class="h-20 w-20 border-2 border-black shadow-[4px_4px_0_#fff]" loading="lazy" decoding="async">
+          <p class="max-w-xs text-sm leading-relaxed">
+            Venta, financiamiento flexible y moto préstamos en <span data-branches="sentence">La Vega, Bonao, SFM y Moca</span>.
+          </p>
+        </div>
+
+        <nav class="lg:col-span-2" aria-label="Pie de página">
+          <p class="footer-title">Explora</p>
+          <ul class="space-y-1 text-sm font-semibold">
+            <li><a class="footer-link" href="#servicios">Servicios</a></li>
+            <li data-nav="ofertas" hidden><a class="footer-link" href="#ofertas">Ofertas</a></li>
+            <li><a class="footer-link" href="#calculadora">Calculadora</a></li>
+            <li><a class="footer-link" href="#catalogo">Catálogo</a></li>
+            <li><a class="footer-link" href="#sucursales">Sucursales</a></li>
+          </ul>
+        </nav>
+
+        <div class="lg:col-span-3">
+          <p class="footer-title">Sucursales</p>
+          <ul id="footer-branches" class="space-y-3 text-sm">
+            <li><span class="font-bold text-white">La Vega</span></li>
+            <li><span class="font-bold text-white">Bonao</span></li>
+            <li><span class="font-bold text-white">San Francisco (SFM)</span></li>
+            <li><span class="font-bold text-white">Moca</span></li>
+          </ul>
+        </div>
+
+        <div class="space-y-3 lg:col-span-3">
+          <p class="footer-title">Contacto</p>
+          <a class="btn w-full py-3 text-base" data-wa="Hola Motogo, quisiera hablar con un asesor.">
+            <svg class="icon text-lg" aria-hidden="true"><use href="#i-whatsapp"></use></svg> Escribir por WhatsApp
+          </a>
+          <a class="btn-ghost w-full py-3 text-base" href="tel:+18093870532" data-phone-call>
+            <svg class="icon text-brand" aria-hidden="true"><use href="#i-phone"></use></svg> <span data-phone-display>+1 (809) 387-0532</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="pt-8 text-center text-xs font-semibold sm:text-left">
+        <p>&copy; <span id="year"></span> Motogo República Dominicana. Todos los derechos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Botón flotante de WhatsApp -->
+  <a class="fab" data-wa="Hola Motogo, quisiera hablar con un asesor de ventas." aria-label="Escribir por WhatsApp">
+    <svg class="icon" aria-hidden="true"><use href="#i-whatsapp"></use></svg>
+  </a>
+
+  <!-- Vista en grande de cada moto -->
+  <div id="bike-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="bike-modal-title">
+    <div class="modal__dialog">
+      <button type="button" class="modal__close" data-action="close" aria-label="Cerrar">
+        <svg class="icon" aria-hidden="true"><use href="#i-xmark"></use></svg>
+      </button>
+      <div id="bike-modal-body"></div>
+    </div>
+    <button type="button" class="modal__nav modal__nav--prev" data-action="prev" aria-label="Modelo anterior">
+      <svg class="icon" aria-hidden="true"><use href="#i-chevron-left"></use></svg>
+    </button>
+    <button type="button" class="modal__nav modal__nav--next" data-action="next" aria-label="Modelo siguiente">
+      <svg class="icon" aria-hidden="true"><use href="#i-chevron-right"></use></svg>
+    </button>
+  </div>
+
+</body>
+</html>
